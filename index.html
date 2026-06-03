@@ -54,11 +54,13 @@
     <div class="tools">
       <button id="exportBtn" type="button">Export Backup</button>
       <label class="filebtn smallbtn" for="importFile">Import Backup</label>
+      <button id="deleteSelectedBtn" type="button">Delete Selected</button>
       <button id="clearBtn" type="button">Clear All</button>
       <input id="importFile" type="file" accept=".json,application/json" />
     </div>
 
     <h2>Your Watches</h2>
+    <div class="hint mini">Check watches and hit <b>Delete Selected</b>, or tap the red X on one watch.</div>
     <div class="watch-list" id="watchList"></div>
 
     <div class="hint">

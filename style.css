@@ -104,7 +104,7 @@ button, label.filebtn {
 button:active, label.filebtn:active { transform: scale(.98); }
 button:disabled { opacity: .45; cursor: not-allowed; }
 .spin { background: linear-gradient(135deg, var(--accent), #961221); min-width: 125px; font-size: 17px; }
-#clearBtn { background: var(--danger); }
+#clearBtn, #deleteSelectedBtn { background: var(--danger); }
 .smallbtn { min-height: 42px; padding: 10px 12px; }
 .result {
   width: 100%;
@@ -141,7 +141,7 @@ input[type="file"] {
 .watch-list { display: grid; gap: 10px; max-height: 560px; overflow: auto; padding-right: 3px; }
 .watch {
   display: grid;
-  grid-template-columns: 74px 1fr auto;
+  grid-template-columns: 34px 74px 1fr auto;
   gap: 10px;
   align-items: center;
   background: rgba(255,255,255,.045);
@@ -149,11 +149,13 @@ input[type="file"] {
   border-radius: 14px;
   padding: 9px;
 }
+.watch input[type="checkbox"] { width: 24px; height: 24px; accent-color: var(--accent); }
 .watch img { width: 74px; height: 62px; object-fit: cover; border-radius: 10px; background: #090a0e; }
 .watch .name { font-weight: 800; word-break: break-word; }
 .watch .small { color: var(--muted); font-size: 12px; margin-top: 3px; }
 .delete { background: #3a1720; padding: 9px 11px; min-height: 38px; }
 .hint { color: var(--muted); font-size: 13px; line-height: 1.35; margin-top: 10px; }
+.hint.mini { margin: -4px 0 10px; }
 canvas { width: 100%; height: 100%; display: block; }
 .modal {
   position: fixed;

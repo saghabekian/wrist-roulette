@@ -4,6 +4,7 @@
   const spinBtn = document.getElementById('spinBtn');
   const quickPickBtn = document.getElementById('quickPickBtn');
   const clearBtn = document.getElementById('clearBtn');
+  const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
   const addBtn = document.getElementById('addBtn');
   const exportBtn = document.getElementById('exportBtn');
   const importFile = document.getElementById('importFile');
@@ -17,10 +18,12 @@
   const installHelpBtn = document.getElementById('installHelpBtn');
   const closeInstallBtn = document.getElementById('closeInstallBtn');
 
-  const STORAGE_KEY = 'wristRouletteLocalOnlyV1';
+  const STORAGE_KEY = 'wristRouletteLocalOnlyV2';
+  const OLD_STORAGE_KEY = 'wristRouletteLocalOnlyV1';
+
   let watches = [];
   try {
-    watches = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    watches = JSON.parse(localStorage.getItem(STORAGE_KEY) || localStorage.getItem(OLD_STORAGE_KEY) || '[]');
   } catch(e) {
     watches = [];
   }
@@ -138,9 +141,10 @@
       const row = document.createElement('div');
       row.className = 'watch';
       row.innerHTML =
+        '<input class="select-watch" type="checkbox" data-index="' + index + '" aria-label="Select watch">' +
         '<img src="' + watch.photo + '" alt="">' +
         '<div><div class="name">' + escapeHtml(watch.name) + '</div><div class="small">' +
-        (watch.notes ? escapeHtml(watch.notes) : 'Wheel spot #' + (index + 1)) +
+        (watch.notes ? escapeHtml(watch.notes) : 'Picked ' + (watch.picked || 0) + ' times') +
         '</div></div>' +
         '<button class="delete" type="button" data-index="' + index + '">X</button>';
       watchList.appendChild(row);
@@ -148,10 +152,14 @@
 
     document.querySelectorAll('.delete').forEach(btn => {
       btn.addEventListener('click', () => {
-        watches.splice(Number(btn.dataset.index), 1);
-        save();
-        renderList();
-        drawWheel();
+        const index = Number(btn.dataset.index);
+        const name = watches[index].name || 'this watch';
+        if (confirm('Remove ' + name + '?')) {
+          watches.splice(index, 1);
+          save();
+          renderList();
+          drawWheel();
+        }
       });
     });
   }
@@ -232,6 +240,26 @@
     drawWheel();
   });
 
+  deleteSelectedBtn.addEventListener('click', function() {
+    const checked = Array.from(document.querySelectorAll('.select-watch:checked'))
+      .map(cb => Number(cb.dataset.index))
+      .sort((a, b) => b - a);
+
+    if (checked.length === 0) {
+      alert('Select at least one watch to delete.');
+      return;
+    }
+
+    if (!confirm('Delete ' + checked.length + ' selected watch' + (checked.length === 1 ? '' : 'es') + '?')) {
+      return;
+    }
+
+    checked.forEach(index => watches.splice(index, 1));
+    save();
+    renderList();
+    drawWheel();
+  });
+
   function pickWinnerIndex() {
     return Math.floor(Math.random() * watches.length);
   }
@@ -284,7 +312,7 @@
   clearBtn.addEventListener('click', function() {
     if (!watches.length) return;
 
-    if (confirm('Clear all watches from this phone/browser?')) {
+    if (confirm('Clear ALL watches from this phone/browser?')) {
       watches = [];
       save();
       renderList();
@@ -296,7 +324,7 @@
   exportBtn.addEventListener('click', function() {
     const backup = {
       app: 'Wrist Roulette',
-      version: 1,
+      version: 2,
       exportedAt: new Date().toISOString(),
       watches
     };
@@ -361,6 +389,7 @@
     setTimeout(resizeCanvas, 250);
   });
 
+  save();
   renderList();
   resizeCanvas();
 })();

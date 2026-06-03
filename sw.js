@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wrist-roulette-v1';
+const CACHE_NAME = 'wrist-roulette-v2';
 const FILES = [
   './',
   './index.html',
@@ -24,7 +24,5 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
-  );
+  event.respondWith(caches.match(event.request).then(response => response || fetch(event.request)));
 });
