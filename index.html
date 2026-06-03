@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#0f1117"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Wrist Roulette">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <title>Wrist Roulette</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>⌚ Wrist Roulette</h1>
+  <div class="sub">Your watches. Your phone. Your daily spin.</div>
+</header>
+
+<main class="wrap">
+  <section class="card wheel-area">
+    <div class="wheel-wrap">
+      <canvas id="wheel"></canvas>
+      <div class="pointer"></div>
+      <div class="hub">WRIST<br>ROULETTE</div>
+    </div>
+
+    <div class="buttons">
+      <button class="spin" id="spinBtn" type="button">SPIN</button>
+      <button id="quickPickBtn" type="button">Quick Pick</button>
+      <button id="installHelpBtn" type="button">iPhone Install</button>
+    </div>
+
+    <div class="result" id="result">
+      <strong>Ready?</strong>
+      Add your watches and spin.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Add Watch</h2>
+    <div class="form">
+      <input id="watchName" type="text" placeholder="Watch name, ex: Seiko GMT Blue" autocomplete="off" />
+      <input id="watchNotes" type="text" placeholder="Optional notes, ex: paid $640, box/papers" autocomplete="off" />
+      <div class="addrow">
+        <label class="filebtn" for="watchPhoto">Choose / Take Photo</label>
+        <button id="addBtn" type="button">Add Watch</button>
+      </div>
+      <input id="watchPhoto" type="file" accept="image/*" />
+      <div class="preview" id="previewText">No photo selected yet.</div>
+    </div>
+
+    <div class="tools">
+      <button id="exportBtn" type="button">Export Backup</button>
+      <label class="filebtn smallbtn" for="importFile">Import Backup</label>
+      <button id="clearBtn" type="button">Clear All</button>
+      <input id="importFile" type="file" accept=".json,application/json" />
+    </div>
+
+    <h2>Your Watches</h2>
+    <div class="watch-list" id="watchList"></div>
+
+    <div class="hint">
+      Everything saves only on this phone/browser. Sharing the app link does not share your watches.
+    </div>
+  </section>
+</main>
+
+<div class="modal hidden" id="installModal">
+  <div class="modal-card">
+    <button class="close" id="closeInstallBtn" type="button">×</button>
+    <h2>Install on iPhone</h2>
+    <p>Open this app in <b>Safari</b>, then tap:</p>
+    <p class="steps">Share button → Add to Home Screen → Add</p>
+    <p>After that it opens like a normal app. Each person’s watches stay only on their own phone.</p>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
